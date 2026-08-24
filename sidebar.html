@@ -1,1 +1,543 @@
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
+<style>
+  .hub-sidebar {
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 0;
+    padding: 32px 24px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .hub-sidebar__title {
+    font-family: 'EB Garamond', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: #1F3D2B;
+    margin: 0 0 4px 0;
+    line-height: 1.25;
+  }
+  
+  .hub-sidebar__title.active-root {
+    font-weight: 600; 
+  }
+
+  .hub-sidebar__eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #8a8680;
+    font-weight: 500;
+    margin: 0 0 24px 0;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid #1F3D2B;
+    display: block;
+  }
+
+  .hub-sidebar__group {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #f0eeeb;
+    padding-bottom: 8px;
+  }
+
+  .hub-sidebar__group:nth-last-of-type(2) {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .hub-sidebar__group-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0 0 8px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5A6B5E;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.2s ease;
+  }
+
+  .hub-sidebar__group-toggle:hover {
+    color: #1F3D2B;
+  }
+
+  .hub-sidebar__chevron {
+    width: 12px;
+    height: 12px;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z'/%3E%3C/svg%3E") no-repeat center;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z'/%3E%3C/svg%3E") no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .hub-sidebar__group-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-in-out;
+  }
+
+  .hub-sidebar__group-content-inner {
+    overflow: hidden;
+  }
+
+  .hub-sidebar__group.is-expanded .hub-sidebar__group-content {
+    grid-template-rows: 1fr;
+  }
+
+  .hub-sidebar__group.is-expanded .hub-sidebar__chevron {
+    transform: rotate(180deg);
+  }
+
+  .hub-sidebar__group.is-expanded .hub-sidebar__group-toggle {
+    color: #1F3D2B;
+  }
+
+  .hub-sidebar__links {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0 8px 0;
+  }
+
+  .hub-sidebar__links li {
+    margin-bottom: 2px;
+  }
+
+  .hub-sidebar__links a {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 13.5px;
+    color: #3a3835;
+    text-decoration: none;
+    line-height: 1.45;
+    transition: color 0.15s ease;
+  }
+
+  .hub-sidebar__links a::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+    flex-shrink: 0;
+    background-color: #1F3D2B; 
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z'/%3E%3C/svg%3E") no-repeat center;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z'/%3E%3C/svg%3E") no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  .hub-sidebar__sub-links {
+    list-style: none;
+    margin: 0 0 4px 0;
+    padding-left: 16px; 
+  }
+
+  .hub-sidebar__sub-links a {
+    font-size: 12.5px; 
+    color: #615e5a;
+    padding: 4px 0;
+  }
+
+  .hub-sidebar__sub-links a::before {
+    width: 10px; 
+    height: 10px;
+    margin-right: 6px;
+  }
+
+  .hub-sidebar__links a:hover, .hub-sidebar__sub-links a:hover {
+    color: #1F3D2B; 
+  }
+
+  .hub-sidebar__links a:hover::before, .hub-sidebar__sub-links a:hover::before {
+    transform: translateX(4px);
+  }
+ 
+  .hub-sidebar__links li.active > a, 
+  .hub-sidebar__sub-links li.active > a {
+    color: #1F3D2B; 
+    font-weight: 600;
+  }
+
+  .hub-sidebar__links li.active > a::before, 
+  .hub-sidebar__sub-links li.active > a::before {
+    transform: translateX(4px);
+  }
+
+  .hub-sidebar__divider {
+    border: none;
+    border-top: 1px solid #E2E7E1;
+    margin: 24px 0;
+  }
+
+  .hub-sidebar__cta a {
+    font-family: 'Inter', sans-serif;
+    display: block;
+    background-color: #1F3D2B; 
+    color: #FFFFFF;
+    text-align: center;
+    padding: 13px 16px;
+    border-radius: 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .hub-sidebar__cta a:hover {
+    background-color: #12271A; 
+  }
+
+  @media (max-width: 768px) {
+    .hub-sidebar:not(.hub-mobile-cloned) {
+      display: none !important;
+    }
+  }
+
+  .hub-mobile-toggle-btn {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    /* ALT BAR (TAM GENİŞLİKTE BUTON) */
+    .hub-mobile-toggle-btn {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      position: fixed !important;
+      bottom: 0; 
+      left: 0 !important;
+      width: 100% !important; 
+      background-color: #1F3D2B !important;
+      color: #FFFFFF !important;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 16px 20px !important;
+      border-radius: 0 !important; 
+      border: none !important;
+      border-top: 1px solid rgba(255,255,255,0.1) !important; 
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25) !important; 
+      z-index: 2147483645 !important;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease; 
+    }
+    
+    .hub-mobile-toggle-btn:active {
+      transform: scale(0.98);
+    }
+    
+    .hub-mobile-toggle-btn svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+  }
+
+  .hub-mobile-overlay-bg {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    z-index: 2147483646 !important;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .hub-mobile-overlay-bg.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .hub-mobile-cloned {
+    position: fixed !important;
+    bottom: -100% !important; 
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 85vh !important; 
+    overflow-y: auto !important;
+    z-index: 2147483647 !important;
+    border: none !important;
+    border-top: 1px solid #E2E7E1 !important;
+    border-radius: 0 !important; 
+    transition: bottom 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; 
+    padding-top: 56px !important;
+    background-color: #FFFFFF !important;
+  }
+
+  .hub-mobile-cloned.is-open {
+    bottom: 0 !important; 
+  }
+
+  .hub-mobile-close-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    background: transparent !important; 
+    width: 32px !important;
+    height: 32px !important;
+    border: none !important;
+    font-size: 28px !important; 
+    color: #1F3D2B !important;
+    cursor: pointer;
+    line-height: 1 !important;
+    padding: 0 !important;
+  }
+</style>
+
+<div class="hub-sidebar" id="mainHubSidebar">
+  <h3 class="hub-sidebar__title">Proktoloji</h3>
+  <span class="hub-sidebar__eyebrow">Bu bölümde</span>
+
+  <div class="hub-sidebar__group">
+    <button class="hub-sidebar__group-toggle">
+      <span>Hemoroid (Basur)</span>
+      <span class="hub-sidebar__chevron"></span>
+    </button>
+    <div class="hub-sidebar__group-content">
+      <div class="hub-sidebar__group-content-inner">
+        <ul class="hub-sidebar__links">
+          <li><a href="/proktoloji/hemoroid-nedir">Hemoroid (Basur) Nedir?</a></li>
+          <li><a href="/proktoloji/hemoroid-belirtileri">Hemoroid Belirtileri</a></li>
+          <li><a href="/proktoloji/hemoroid-teshisi">Hemoroid Teşhisi</a></li>
+          <li><a href="/proktoloji/lazerle-hemoroid-tedavisi">Lazerle Hemoroid Tedavisi (LHP)</a></li>
+          <li><a href="/proktoloji/hemoroid-ameliyati">Hemoroid Ameliyatı</a></li>
+          <li><a href="/proktoloji/hemoroid-iyilesme-sureci">Hemoroid Tedavisi Sonrası İyileşme Süreci</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="hub-sidebar__group">
+    <button class="hub-sidebar__group-toggle">
+      <span>Anal Fissür (Makat Çatlağı)</span>
+      <span class="hub-sidebar__chevron"></span>
+    </button>
+    <div class="hub-sidebar__group-content">
+      <div class="hub-sidebar__group-content-inner">
+        <ul class="hub-sidebar__links">
+          <li><a href="/proktoloji/anal-fissur-nedir">Anal Fissür (Makat Çatlağı) Nedir?</a></li>
+          <li><a href="/proktoloji/anal-fissur-belirtileri">Anal Fissür Belirtileri</a></li>
+          <li><a href="/proktoloji/anal-fissur-teshisi">Anal Fissür Teşhisi</a></li>
+          <li><a href="/proktoloji/anal-fissur-botoks-tedavisi">Anal Fissür Botoks Uygulaması</a></li>
+          <li><a href="/proktoloji/anal-fissur-ameliyati">Anal Fissür Cerrahisi (LİS)</a></li>
+          <li><a href="/proktoloji/anal-fissur-iyilesme-sureci">Anal Fissür Tedavisi Sonrası İyileşme Süreci</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="hub-sidebar__group">
+    <button class="hub-sidebar__group-toggle">
+      <span>Anal Fistül</span>
+      <span class="hub-sidebar__chevron"></span>
+    </button>
+    <div class="hub-sidebar__group-content">
+      <div class="hub-sidebar__group-content-inner">
+        <ul class="hub-sidebar__links">
+          <li><a href="/proktoloji/anal-fistul-nedir">Anal Fistül Nedir?</a></li>
+          <li><a href="/proktoloji/anal-fistul-teshisi">Anal Fistül Teşhisi</a></li>
+          <li><a href="/proktoloji/lazerle-fistul-tedavisi">Lazerle Fistül Tedavisi (FiLaC)</a></li>
+          <li><a href="/proktoloji/anal-fistul-seton-tedavisi">Anal Fistül Cerrahisi</a></li>
+          <li><a href="/proktoloji/anal-fistul-iyilesme-sureci">Anal Fistül Tedavisi Sonrası İyileşme Süreci</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="hub-sidebar__group">
+    <button class="hub-sidebar__group-toggle">
+      <span>Kıl Dönmesi (Pilonidal Sinüs)</span>
+      <span class="hub-sidebar__chevron"></span>
+    </button>
+    <div class="hub-sidebar__group-content">
+      <div class="hub-sidebar__group-content-inner">
+        <ul class="hub-sidebar__links">
+          <li><a href="/proktoloji/kil-donmesi-nedir">Kıl Dönmesi (Pilonidal Sinüs) Nedir ve Nasıl Oluşur?</a></li>
+          <li><a href="/proktoloji/lazerle-kil-donmesi-tedavisi">Lazerle Kıl Dönmesi Tedavisi</a></li>
+          <li><a href="/proktoloji/kil-donmesi-ameliyati">Kıl Dönmesi Flap Ameliyatları</a></li>
+          <li><a href="/proktoloji/kil-donmesi-iyilesme-sureci">Kıl Dönmesi Tedavisi Sonrası İyileşme Süreci</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="hub-sidebar__group">
+    <button class="hub-sidebar__group-toggle">
+      <span>Perianal Apse</span>
+      <span class="hub-sidebar__chevron"></span>
+    </button>
+    <div class="hub-sidebar__group-content">
+      <div class="hub-sidebar__group-content-inner">
+        <ul class="hub-sidebar__links">
+          <li><a href="/proktoloji/perianal-abse-nedir-teshisi">Perianal Apse Nedir? Belirtileri ve Teşhis Süreci</a></li>
+          <li><a href="/proktoloji/perianal-abse-tedavisi">Perianal Apse Tedavisi</a></li>
+          <li><a href="/proktoloji/perianal-abse-iyilesme-sureci">Perianal Apse Tedavisi Sonrası İyileşme Süreci</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="hub-sidebar__group">
+    <button class="hub-sidebar__group-toggle">
+      <span>Anal Kondilom</span>
+      <span class="hub-sidebar__chevron"></span>
+    </button>
+    <div class="hub-sidebar__group-content">
+      <div class="hub-sidebar__group-content-inner">
+        <ul class="hub-sidebar__links">
+          <li><a href="/proktoloji/anal-kondilom-nedir">Anal Kondilom Nedir?</a></li>
+          <li><a href="/proktoloji/anal-kondilom-tedavisi">Anal Kondilom Tedavisi</a></li>
+          <li><a href="/proktoloji/anal-kondilom-iyilesme-sureci">Anal Kondilom Tedavisi Sonrası İyileşme Süreci</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hub-sidebar__divider">
+
+  <div class="hub-sidebar__cta">
+    <a href="/iletisim">Randevu al</a>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const originalSidebar = document.getElementById("mainHubSidebar");
+    if (!originalSidebar) return;
+
+    const mobileMenuWrapper = document.createElement("div");
+    mobileMenuWrapper.classList.add("hub-mobile-menu-system");
+    document.body.appendChild(mobileMenuWrapper);
+
+    mobileMenuWrapper.innerHTML = `
+      <div class="hub-mobile-overlay-bg" id="hubOverlayBg"></div>
+      <button class="hub-mobile-toggle-btn" id="hubMobileToggleBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        Tüm Konular
+      </button>
+      <div class="hub-sidebar hub-mobile-cloned" id="hubMobileClonedMenu">
+        <button class="hub-mobile-close-btn" id="hubMobileCloseBtn">&times;</button>
+        <div id="hubMobileContentContainer"></div>
+      </div>
+    `;
+
+    const contentContainer = document.getElementById("hubMobileContentContainer");
+    contentContainer.innerHTML = originalSidebar.innerHTML;
+
+    const currentPath = window.location.pathname;
+    const allSidebarLinks = document.querySelectorAll(".hub-sidebar a");
+    let hasActiveLink = false;
+
+    allSidebarLinks.forEach(link => {
+      const linkPath = link.getAttribute("href");
+      
+      if (linkPath && currentPath === linkPath) {
+        hasActiveLink = true;
+        
+        const listItem = link.closest("li");
+        if (listItem) {
+          listItem.classList.add("active");
+        }
+        
+        const accordionGroup = link.closest(".hub-sidebar__group");
+        if (accordionGroup) {
+          accordionGroup.classList.add("is-expanded");
+        }
+      }
+    });
+
+    if (!hasActiveLink) {
+      const firstGroups = document.querySelectorAll(".hub-sidebar__group:first-of-type");
+      firstGroups.forEach(group => group.classList.add("is-expanded"));
+      
+      const mainTitles = document.querySelectorAll(".hub-sidebar__title");
+      mainTitles.forEach(title => title.classList.add("active-root"));
+    }
+
+    const toggleBtn = document.getElementById("hubMobileToggleBtn");
+    const closeBtn = document.getElementById("hubMobileCloseBtn");
+    const clonedMenu = document.getElementById("hubMobileClonedMenu");
+    const overlayBg = document.getElementById("hubOverlayBg");
+
+    function openMenu() {
+      clonedMenu.classList.add("is-open");
+      overlayBg.classList.add("is-visible");
+      document.body.style.overflow = "hidden"; 
+    }
+
+    function closeMenu() {
+      clonedMenu.classList.remove("is-open");
+      overlayBg.classList.remove("is-visible");
+      document.body.style.overflow = ""; 
+    }
+
+    toggleBtn.addEventListener("click", openMenu);
+    closeBtn.addEventListener("click", closeMenu);
+    overlayBg.addEventListener("click", closeMenu); 
+    
+    const siteFooter = document.querySelector("footer"); 
+    let isScrolling = false;
+
+    function checkFooterCollision() {
+      if (window.innerWidth <= 768 && siteFooter) {
+        const footerRect = siteFooter.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        if (footerRect.top < windowHeight) {
+          const overlap = windowHeight - footerRect.top;
+          toggleBtn.style.bottom = overlap + "px";
+        } else {
+          toggleBtn.style.bottom = "0px";
+        }
+      }
+      isScrolling = false;
+    }
+
+    window.addEventListener("scroll", function() {
+      if (!isScrolling) {
+        window.requestAnimationFrame(checkFooterCollision);
+        isScrolling = true;
+      }
+    });
+    
+    window.addEventListener("resize", function() {
+      window.requestAnimationFrame(checkFooterCollision);
+    });
+    
+    checkFooterCollision();
+
+    document.addEventListener("click", function(e) {
+      const accordionToggle = e.target.closest(".hub-sidebar__group-toggle");
+      if (!accordionToggle) return;
+      
+      const group = accordionToggle.closest(".hub-sidebar__group");
+      if (group) {
+        group.classList.toggle("is-expanded");
+      }
+    });
+  });
+</script>
