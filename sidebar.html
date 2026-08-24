@@ -421,9 +421,12 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  (function initHubSidebar() {
     const originalSidebar = document.getElementById("mainHubSidebar");
     if (!originalSidebar) return;
+
+    const existingMenu = document.querySelector(".hub-mobile-menu-system");
+    if (existingMenu) existingMenu.remove();
 
     const mobileMenuWrapper = document.createElement("div");
     mobileMenuWrapper.classList.add("hub-mobile-menu-system");
@@ -539,5 +542,5 @@
         group.classList.toggle("is-expanded");
       }
     });
-  });
+  })();
 </script>
